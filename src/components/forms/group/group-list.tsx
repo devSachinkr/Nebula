@@ -8,6 +8,8 @@ import { NEXUS_CONSTANTS } from "@/constants"
 import Link from "next/link"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { GroupListItem } from "./group-list-item"
+import "swiper/css/bundle"
 type Props = {
     selected?: string | undefined
     register?: UseFormRegister<z.infer<typeof groupSchema> | any>
@@ -26,13 +28,13 @@ const GroupList = ({
 }: Props) => {
     return (
         <Slider
-            spaceBetween={10}
-            loop
-            freeMode
-            label={label}
-            overlay={overlay}
-            {...rest}
-            slidesPerView={"auto"}
+        slidesPerView={"auto"}
+        spaceBetween={10}
+        loop
+        freeMode
+        label={label}
+        overlay={overlay}
+        {...rest}
         >
             {NEXUS_CONSTANTS.groupList.map((item, idx) => (
                 <SwiperSlide key={idx} className="content-width-slide">
@@ -55,6 +57,7 @@ const GroupList = ({
                                         value={item.path}
                                         {...register("category")}
                                     />
+                                        <GroupListItem {...item} selected={selected} />
                                 </span>
                             </Label>
                         )

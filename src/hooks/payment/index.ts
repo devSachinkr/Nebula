@@ -16,10 +16,10 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 const useStripeElements = () => {
     const StripePromise = async () => {
-        if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
-            throw new Error("Missing Clerk publishable key")
+        if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY) {
+            throw new Error("Missing Stripe publishable key")
         }
-        return await loadStripe(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)
+        return await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY)
     }
 
     return { StripePromise }

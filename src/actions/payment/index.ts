@@ -8,11 +8,24 @@ import { v4 } from "uuid"
 export const getStripeClientSecret = async () => {
     try {
         const payment = await stripe.paymentIntents.create({
-            currency: "usd",
+            currency: "inr",
             amount: 9900,
             automatic_payment_methods: {
                 enabled: true,
             },
+            description:"Nebula Nexus Features  Access",
+            shipping: {
+                name: 'Testing...',
+                address: {
+                  line1: 'Testing...',
+                  postal_code: 'Testing...',
+                  city: 'Testing...',
+                  state: 'Testing...',
+                  country: 'Testing...',
+                },
+              },
+
+            
         })
         if (payment) {
             return {
@@ -32,7 +45,7 @@ export const transferCommission = async (dest: string) => {
     try {
         const transfer = await stripe.transfers.create({
             amount: 3960,
-            currency: "usd",
+            currency: "inr",
             destination: dest,
         })
         if (transfer) {
