@@ -1,4 +1,5 @@
 import { createNewChannel } from "@/actions/channel"
+import { getGroupChannels } from "@/actions/groups"
 import { IGroupInfo, IGroups } from "@/components/global/sidebar"
 import ToastNotify from "@/components/global/ToastNotify"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -21,8 +22,9 @@ const useSidebar = ({ groupId }: { groupId: string }) => {
     const { data: groupInfo } = useQuery({
         queryKey: ["group-info"],
     }) as { data: IGroupInfo }
-    const { data: channels } = useQuery({
+    const { data: channels }:{data:any} = useQuery({
         queryKey: ["group-channels"],
+        queryFn:()=>getGroupChannels(groupId)
     })
     const client = useQueryClient()
 
@@ -60,4 +62,7 @@ const useSidebar = ({ groupId }: { groupId: string }) => {
 
     return { groupInfo, groups, mutate, variables, isPending, channels }
 }
+
+
+
 export { useNavbar, useSidebar }

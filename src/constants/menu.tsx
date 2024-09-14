@@ -1,4 +1,5 @@
-import { CreditCard, Explore, Home } from "@/icons"
+import { AffiliateDuoToneBlack, CreditCard, Explore, GlobeDuoToneBlack, Home, IDuotoneBlack, ZapDouToneBlack } from "@/icons"
+import { v4 } from "uuid"
 
 export type MENU_PROPS = {
     id: number
@@ -29,4 +30,41 @@ export const LANDING_PAGE_MENU: MENU_PROPS[] = [
         icon: <Explore />,
         path: "/explore",
     },
+]
+type MenuProps={
+    id:string,
+    name:string,
+    path:string,
+    icon:JSX.Element,
+    section?: boolean
+  integration?: boolean
+}
+export const SIDEBAR_SETTINGS_MENU:MenuProps[]=[
+    {
+         id:v4(),
+         name:"General",
+         path:"",
+         icon:<IDuotoneBlack />
+    },{
+      id:v4(),
+      name:"Subscription",
+         path:"subscription",
+         icon:<CreditCard />
+    },{
+      id:v4(),
+      name:"Affiliates",
+         path:"affiliates",
+         icon:<AffiliateDuoToneBlack />
+    },
+    {
+      id:v4(),
+      name:"Domain Config",
+         path:"domains",
+         icon:<GlobeDuoToneBlack />
+    },{
+      id:v4(),
+      name:"Integrations",
+         path:"integrations",
+         icon:<ZapDouToneBlack />
+    }
 ]

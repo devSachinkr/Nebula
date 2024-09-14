@@ -17,12 +17,17 @@ export const OnlineTracking = createSlice({
             const list = state.members.find((data: any) =>
                 action.payload.members.find((p: any) => data.id === p.id),
             )
-            if(!list){
-                state.members=[...state.members,...action.payload.members]
+            if (!list) {
+                state.members = [...state.members, ...action.payload.members]
             }
         },
-         onOffline:(state,action: PayloadAction<InitialStateProps>)=>{
-             
-         }
+        onOffline: (state, action: PayloadAction<InitialStateProps>) => {
+            state.members = state.members.filter((member) => {
+                action.payload.members.find((m) => m.id !== member.id)
+            })
+        },
     },
 })
+
+export const { onOffline, onOnline } = OnlineTracking.actions
+export default OnlineTracking.reducer

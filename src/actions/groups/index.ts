@@ -91,6 +91,7 @@ export const getGroupInfo = async (groupId: string) => {
 }
 
 export const getUserGroups = async (userId: string) => {
+    
     if (!userId) {
         return {
             status: 404,

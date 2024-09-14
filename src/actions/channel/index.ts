@@ -103,3 +103,121 @@ export const createNewChannel = async (groupId: string, payload:{id:string,name:
         }
     }
 }
+
+
+
+
+
+
+
+export const updateChannelInfo=async(channelId:string,name?:string,icon?:string)=>{
+     if(!channelId){
+        return {
+            status:404,
+            message:"Channel ID must be provided.",
+        }
+     }
+     
+     try {
+            if(name){
+                const res=await db.channel.update({
+                    where:{id:channelId},
+                    data:{
+                        name:name,
+                    }
+                })
+                if(res){
+                    return {
+                        status:204,
+                        message:"Credentials Reflected Successfully"
+                    }
+                }
+                
+                return {
+                    status:400,
+                    message:"Failed to update channel details."
+                }
+            }
+            if( icon){
+                const res=await db.channel.update({
+                    where:{id:channelId},
+                    data:{
+                        icon:icon,
+                    }
+                })
+                if(res){
+                    return {
+                        status:204,
+                        message:"Credentials Reflected Successfully"
+                    }
+                }
+                
+                return {
+                    status:400,
+                    message:"Failed to update channel details."
+                }
+            }  
+            if(name && icon ){
+                const res=await db.channel.update({
+                    where:{id:channelId},
+                    data:{
+                        name:name,
+                        icon:icon,
+                    }
+                })
+                if(res){
+                    return {
+                        status:204,
+                        message:"Credentials Reflected Successfully"
+                    }
+                }
+                
+                return {
+                    status:400,
+                    message:"Failed to update channel details."
+                }
+            }
+
+
+
+     } catch (error) {
+         
+         console.error("Error updating channel details:", error)
+         return {
+             status:500,
+             message:"Failed to update channel details. Please try again later."
+         }
+     }
+}
+
+
+export const deleteChannel=async(channelId:string)=>{
+    if(!channelId){
+        return {
+            status:400,
+            message:"Channel ID must be provided."
+        }
+    }
+    try {
+        const res=await db.channel.delete({
+            where:{id:channelId}
+        })
+        if(res){
+            return {
+                status:204,
+                message:"Channel deleted successfully"
+            }
+        }
+        
+        return {
+            status:404,
+            message:"Channel not found"
+        }
+    } catch (error) {
+         console.error("Error deleting channel:", error)
+         return {
+             status:500,
+             message:"Failed to delete channel. Please try again later."
+         }
+    }
+}
