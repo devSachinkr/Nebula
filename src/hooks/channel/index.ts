@@ -30,7 +30,7 @@ const useChannelInfo = () => {
         },
         onSuccess: (data) => {
             return ToastNotify({
-                title: `${data?.status !== 204 ? "Success" : "Oops!"}`,
+                title: `${data?.status === 204 ? "Success" : "Oops!"}`,
                 msg: data?.message!,
             })
         },
@@ -44,7 +44,7 @@ const useChannelInfo = () => {
         mutationFn: (data: { id: string }) => deleteChannel(data.id),
         onSuccess: (data) => {
             return ToastNotify({
-                title: `${data?.status !== 204 ? "Success" : "Oops!"}`,
+                title: `${data?.status === 204 ? "Success" : "Oops!"}`,
                 msg: data?.message!,
             })
         },
@@ -83,7 +83,7 @@ const useChannelInfo = () => {
         return () =>
             document.removeEventListener("click", endChannelEdit, false)
     }, [icon])
-    const channelDelete=(id:string)=>deleteChannel(id)
+    const channelDelete=(id:string)=>deleteMutate({id})
     return {
         editChannel,
         edit,
@@ -97,6 +97,7 @@ const useChannelInfo = () => {
         deleteVariables,
         triggerRef,
         channelRef,
+        deleteMutate
     }
 }
 

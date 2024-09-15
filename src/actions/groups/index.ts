@@ -91,7 +91,6 @@ export const getGroupInfo = async (groupId: string) => {
 }
 
 export const getUserGroups = async (userId: string) => {
-    
     if (!userId) {
         return {
             status: 404,
@@ -250,8 +249,8 @@ export const getAllGroupMembers = async (groupId: string) => {
                 User: true,
             },
         })
-        if(res && res.length>0){
-            return {status:200,members:res}
+        if (res && res.length > 0) {
+            return { status: 200, members: res }
         }
         return {
             status: 404,
@@ -261,6 +260,49 @@ export const getAllGroupMembers = async (groupId: string) => {
         return {
             status: 500,
             message: "Error fetching group members data",
+        }
+    }
+}
+
+export const searchGroups = async (
+    mode: "POSTS" | "GROUPS",
+    query: string,
+    pageNo?: number,
+) => {
+    try {
+        switch (mode) {
+            case "GROUPS": {
+                const res = await db.group.findMany({
+                    where: {
+                        name: {
+                            contains: query,
+                            mode: "insensitive",
+                        },
+                    },
+                    take: 6,
+                    skip: pageNo || 0,
+                })
+                if (res) {
+                    if (res.length > 0) {
+                        return {
+                            status: 200,
+                            data: res,
+                        }
+                    }
+                }
+                return { status: 404, message: "No groups found!" }
+            }
+            case "POSTS": {
+            }
+            default: {
+                throw new Error("Invalid mode")
+            }
+        }
+    } catch (error) {
+        console.error("Error searching groups:", error)
+        return {
+            status: 500,
+            message: "Error searching groups data",
         }
     }
 }

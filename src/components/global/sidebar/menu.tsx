@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation"
 import { IChannels } from "."
 import { useChannelInfo } from "@/hooks/channel"
 import { SIDEBAR_SETTINGS_MENU } from "@/constants/menu"
+import IconDropdown from "./icon-dropdown"
+import IconRender from "../icon-renderer"
 
 type Props = {
   channels: IChannels[]
@@ -107,13 +109,13 @@ const SideBarMenu = ({
                   )}
                   href={`/group/${channel.groupId}/channel/${channel.id}`}
                   {...(channel.name !== "general" &&
-                    channel.name !== "announcements" && {
+                    channel.name !== "announcement" && {
                       onDoubleClick: () => editChannel({id:channel.id}),
                       ref: channelRef,
                     })}
                 >
                   <div className="flex gap-x-2 items-center">
-                    {/* {channel.id === current && edit ? (
+                    {channel.id === current && edit ? (
                       <IconDropdown
                         ref={triggerRef}
                         page={currentPage}
@@ -123,11 +125,11 @@ const SideBarMenu = ({
                         currentIcon={icon}
                       />
                     ) : (
-                      <IconRenderer
+                      <IconRender
                         icon={channel.icon}
                         mode={currentPage === channel.id ? "LIGHT" : "DARK"}
                       />
-                    )} */}
+                    )}
                     {channel.id === current && edit ? (
                       <Input
                         type="text"
@@ -150,7 +152,7 @@ const SideBarMenu = ({
                     )}
                   </div>
                   {channel.name !== "general" &&
-                    channel.name !== "announcements" &&
+                    channel.name !== "announcement" &&
                     userId === groupUserId && (
                       <Trash
                         onClick={() => channelDelete(channel.id)}

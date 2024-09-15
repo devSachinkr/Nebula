@@ -93,8 +93,8 @@ export const createNewGroup = async (
                                 },
                                 {
                                     id: v4(),
-                                    name: "announcements",
-                                    icon: "announcements",
+                                    name: "announcement",
+                                    icon: "announcement",
                                 },
                             ],
                         },
