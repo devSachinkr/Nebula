@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/prisma"
 import { authUser } from "../auth"
+import { revalidatePath } from "next/cache"
 
 export const getAffiliate = async (affiliateId: string) => {
     try {
@@ -303,6 +304,182 @@ export const searchGroups = async (
         return {
             status: 500,
             message: "Error searching groups data",
+        }
+    }
+}
+
+export const updateGroupSettings = async ({
+    groupId,
+    type,
+    value,
+    path,
+}: {
+    groupId: string
+    type:
+        | "IMAGE"
+        | "ICON"
+        | "NAME"
+        | "DESCRIPTION"
+        | "HTMLDESCRIPTION"
+        | "JSONDESCRIPTION"
+    value: string
+    path: string
+}) => {
+    if (!groupId) {
+        return {
+            status: 404,
+            message: "Group ID must be needed",
+        }
+    }
+    try {
+        switch (type) {
+            case "IMAGE": {
+                const res = await db.group.update({
+                    where: {
+                        id: groupId,
+                    },
+                    data: {
+                        thumbnail: value,
+                    },
+                })
+                if (res) {
+                    revalidatePath(path)
+
+                    return {
+                        status: 200,
+                        message: "Thumbnail updated successfully",
+                    }
+                }
+
+                return {
+                    status: 500,
+                    message: "Error updating thumbnail",
+                }
+            }
+            case "ICON": {
+                const res = await db.group.update({
+                    where: {
+                        id: groupId,
+                    },
+                    data: {
+                        icon: value,
+                    },
+                })
+                if (res) {
+                    revalidatePath(path)
+
+                    return {
+                        status: 200,
+                        message: "Icon updated successfully",
+                    }
+                }
+
+                return {
+                    status: 500,
+                    message: "Error updating icon",
+                }
+            }
+
+            case "NAME": {
+                const res = await db.group.update({
+                    where: {
+                        id: groupId,
+                    },
+                    data: {
+                        name: value,
+                    },
+                })
+                if (res) {
+                    revalidatePath(path)
+
+                    return {
+                        status: 200,
+                        message: "Name updated successfully",
+                    }
+                }
+                return {
+                    status: 500,
+                    message: "Error updating name",
+                }
+            }
+
+            case "DESCRIPTION": {
+                const res = await db.group.update({
+                    where: {
+                        id: groupId,
+                    },
+                    data: {
+                        description: value,
+                    },
+                })
+                if (res) {
+                    revalidatePath(path)
+
+                    return {
+                        status: 200,
+                        message: "Description updated successfully",
+                    }
+                }
+                return {
+                    status: 500,
+                    message: "Error updating description",
+                }
+            }
+            case "HTMLDESCRIPTION": {
+                const res = await db.group.update({
+                    where: {
+                        id: groupId,
+                    },
+                    data: {
+                        htmlDescription: value,
+                    },
+                })
+                if (res) {
+                    revalidatePath(path)
+
+                    return {
+                        status: 200,
+                        message: "HTMLDescription updated successfully",
+                    }
+                }
+                return {
+                    status: 500,
+                    message: "Error updating HTMLDescription",
+                }
+            }
+            case "JSONDESCRIPTION": {
+                const res = await db.group.update({
+                    where: {
+                        id: groupId,
+                    },
+                    data: {
+                        jsonDescription: value,
+                    },
+                })
+                if (res) {
+                    revalidatePath(path)
+
+                    return {
+                        status: 200,
+                        message: "JSONDescription updated successfully",
+                    }
+                }
+                return {
+                    status: 500,
+                    message: "Error updating JSONDescription",
+                }
+            }
+
+            default: {
+                throw new Error("Invalid type")
+            }
+        }
+                 
+    } catch (error) {
+        console.error("Error updating group settings:", error)
+        return {
+            status: 500,
+            message: "Error updating group settings data",
         }
     }
 }

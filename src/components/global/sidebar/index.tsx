@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Group, Plus } from "lucide-react"
 import { v4 } from "uuid"
 import SideBarMenu from "./menu"
+import { usePathname } from "next/navigation"
 
 type Props = {
     groupId: string
@@ -62,6 +63,7 @@ const Sidebar = ({ groupId, userId, mobile }: Props) => {
             groupId,
         })
     useGroupChat({ userId })
+    const pathname=usePathname();
     return (
         <div
             className={cn(
@@ -113,7 +115,7 @@ const Sidebar = ({ groupId, userId, mobile }: Props) => {
                 </DropDown>
             )}
             <div className="flex flex-col gap-y-5">
-                <div className="flex justify-between items-center">
+             {  !pathname.includes('settings')&& <div className="flex justify-between items-center">
                     <p className="text-xs text-[#F7ECE9]">CHANNELS</p>
                     { 
                     // @ts-ignore
@@ -141,7 +143,7 @@ const Sidebar = ({ groupId, userId, mobile }: Props) => {
                         )
                     }
 
-                </div>
+                </div>}
                 <SideBarMenu
                  channels={channels?.data!}
                  optimisticChannel={variables}
