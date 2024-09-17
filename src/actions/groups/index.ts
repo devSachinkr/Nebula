@@ -474,12 +474,110 @@ export const updateGroupSettings = async ({
                 throw new Error("Invalid type")
             }
         }
-                 
     } catch (error) {
         console.error("Error updating group settings:", error)
         return {
             status: 500,
             message: "Error updating group settings data",
+        }
+    }
+}
+
+export const getGroupByCategory = async ({
+    category,
+    page,
+}: {
+    category: string
+    page: number
+}) => {
+    try {
+        const res = await db.group.findMany({
+            where: {
+                category,
+                NOT: {
+                    description: null,
+                    thumbnail: null,
+                },
+            },
+            take: 6,
+            skip: page,
+        })
+        if (res && res.length > 0) {
+            return { status: 200, data: res }
+        }
+        return {
+            status: 404,
+            message: "Not group  found from this category",
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            status: 500,
+            message: "Internal Server Error",
+        }
+    }
+}
+
+export const getPaginatedPosts = async (
+    identifier: string,
+    paginate: number,
+) => {
+    try {
+        const user = await authUser()
+        const res = await db.post.findMany({
+            where: {
+                channelId: identifier,
+            },
+            skip: paginate,
+            take: 2,
+            orderBy: {
+                createdAt: "desc",
+            },
+            include: {
+                channel: {
+                    select: {
+                        name: true,
+                    },
+                },
+                author: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        image: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                        comments: true,
+                    },
+                },
+                likes: {
+                    where: {
+                        userId: user.id!,
+                    },
+                    select: {
+                        userId: true,
+                        id: true,
+                    },
+                },
+            },
+        })
+        if (res && res.length > 0) {
+            return {
+                status: 200,
+                data: res,
+            }
+        }
+        return {
+            status: 404,
+            message: "No data found",
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            status: 500,
+            message: "Internal server error",
         }
     }
 }

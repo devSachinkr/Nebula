@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { getGroupInfo, updateGroupSettings } from "@/actions/groups"
 import { createClient } from "@/lib/supabase/browser-client"
 import { onOnline } from "@/redux/slices/online-member"
@@ -58,11 +58,9 @@ const useGroupSettingForm = ({ groupId }: { groupId: string }) => {
         queryFn: () => getGroupInfo(groupId),
     })
 
-    const jsonContent =
-        data?.groupInfo?.jsonDescription
-            ? JSON.parse(data?.groupInfo?.jsonDescription as string)
-            : undefined
-
+    const jsonContent = data?.groupInfo?.jsonDescription
+        ? JSON.parse(data?.groupInfo?.jsonDescription as string)
+        : undefined
     const [jsonDesc, setJsonDesc] = useState<JSONContent | undefined>(
         jsonContent,
     )
@@ -90,10 +88,7 @@ const useGroupSettingForm = ({ groupId }: { groupId: string }) => {
         setValue("description", desc)
     }
 
-    const {
-        mutate: mutateGroupSetting,
-        isPending,
-    } = useMutation({
+    const { mutate: mutateGroupSetting, isPending } = useMutation({
         mutationKey: ["group-setting"],
         mutationFn: async ({
             thumbnail,
@@ -185,12 +180,6 @@ const useGroupSettingForm = ({ groupId }: { groupId: string }) => {
                         msg: updateDb.message,
                     })
                 }
-                if (updateDb.status === 200) {
-                    ToastNotify({
-                        title: "Success",
-                        msg: `${updateDb.message}`,
-                    })
-                }
             }
             if (jsondescription) {
                 const updateDb = await updateGroupSettings({
@@ -203,12 +192,6 @@ const useGroupSettingForm = ({ groupId }: { groupId: string }) => {
                     return ToastNotify({
                         title: "Oops!",
                         msg: updateDb.message,
-                    })
-                }
-                if (updateDb.status === 200) {
-                    ToastNotify({
-                        title: "Success",
-                        msg: `${updateDb.message}`,
                     })
                 }
             }
@@ -255,7 +238,7 @@ const useGroupSettingForm = ({ groupId }: { groupId: string }) => {
     }
     useEffect(() => {
         const previews = watch(({ thumbnail, icon }) => {
-            if(!icon) return
+            if (!icon) return
             if (icon[0]) {
                 console.log(URL.createObjectURL(icon[0]))
                 setPreview(URL.createObjectURL(icon[0]))
@@ -287,7 +270,7 @@ const useGroupSettingForm = ({ groupId }: { groupId: string }) => {
         setJsonDesc,
         handleSubmit,
         data,
-        isPending
+        isPending,
     }
 }
 

@@ -29,7 +29,7 @@ const GroupSettingForm = ({ groupId }: Props) => {
     } = useGroupSettingForm({ groupId })
     return (
         <form
-          className="flex flex-col h-full w-full items-start gap-y-5"
+          className="flex flex-col h-full w-full items-start gap-y-5 "
           onSubmit={onSubmit}
         >
           <div className="flex 2xl:flex-row flex-col gap-10">
@@ -44,7 +44,7 @@ const GroupSettingForm = ({ groupId }: Props) => {
                 privacy={data?.groupInfo?.privacy!}
                 thumbnail={data?.groupInfo?.thumbnail!}
                 name={data?.groupInfo?.name!}
-                previewThumbnail={preview}
+                previewThumbnail={thumbnail}
               />
               <Label
                 htmlFor="thumbnail-upload"
@@ -108,7 +108,7 @@ const GroupSettingForm = ({ groupId }: Props) => {
                 setTextContent={setDesc}
               />
             </Label>
-            <Button className="self-start" type="submit">
+            <Button className="self-start mb-6" type="submit">
               <Loader loading={isPending}>Update Settings</Loader>
             </Button>
           </div>

@@ -5,8 +5,8 @@ import Notification from "./notification"
 import UserAvatar from "./user-avatar"
 
 type Props = {
-    groupId: string
-    userId: string
+    groupId?: string
+    userId?: string
     userImageUrl: string
 }
 
@@ -18,9 +18,9 @@ const UserWidget = ({ groupId, userId, userImageUrl }: Props) => {
                 <Message />
             </Link>
             <UserAvatar
-                userId={userId}
+                userId={userId!}
                 imageUrl={userImageUrl}
-                groupId={groupId}
+                groupId={groupId!}
             />
         </div>
     )

@@ -31,7 +31,11 @@ const GroupCard = ({
             <Card className="bg-themeBlack border-themeGray rounded-xl overflow-hidden">
                 <img
                     src={
-                        previewThumbnail || `https://ucarecdn.com/${thumbnail}`
+                        previewThumbnail
+                            ? previewThumbnail
+                            : thumbnail
+                              ? `https://ucarecdn.com/${thumbnail}/`
+                              : `https://ucarecdn.com/${thumbnail}/`
                     }
                     alt="thumbnail"
                     className="w-full opacity-70 h-40"
@@ -40,9 +44,9 @@ const GroupCard = ({
                     <h3 className="text-lg text-themeTextGray font-bold ">
                         {name}
                     </h3>
-                    <p className="text-base text-themeTextGray">
+                    <div className="text-base text-themeTextGray" suppressHydrationWarning>
                         {desc && truncateString(desc)}
-                    </p>
+                    </div>
                 </div>
             </Card>
         </Link>

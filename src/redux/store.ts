@@ -1,9 +1,11 @@
 "use client"
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { TypedUseSelectorHook, useSelector } from "react-redux"
-
+import searchReducer from "./slices/search" 
+import infiniteScrollReducer from "./slices/infinite-scroll" 
 const rootReducer = combineReducers({
-    //add all your reducers here
+    searchReducer,
+    infiniteScrollReducer
 })
 
 export const store = configureStore({
